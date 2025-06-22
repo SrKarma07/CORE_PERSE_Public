@@ -1,0 +1,51 @@
+Título de la tesis:
+  “Desarrollo de una API RESTful para la aplicación Kiddo English Club”
+Autor / Institución:
+  Kenneth Leonardo Ulloa Tobar – Facultad de Ingeniería de Sistemas, EPN
+
+Problema que aborda:
+  • Bajo nivel de dominio de inglés en niños ecuatorianos (EPI 2023 posición 80).
+  • Necesidad de métodos más motivadores; estudios muestran que las TIC y los
+    juegos incrementan atención y retención lingüística.  
+
+Objetivo general del componente lógico:
+  Desarrollar un servicio web que gestione cuentas (padres / niños), temas,
+  puntajes y logros para habilitar un juego móvil de refuerzo de inglés. :contentReference[oaicite:3]{index=3}
+
+Metodología:
+  • Rapid Application Development (RAD) alineado al ciclo de vida de APIs.  
+  • Arquitectura limpia por capas + principios SOLID. 
+
+Estructura de módulos:
+  – account   : credenciales y JWT  
+  – **player** : invitados (Guest), Score, Achievement (Figura 13)  
+  – theme     : vocabulario temático  
+  – services  : acceso a ficheros multimedia  
+  Cada módulo replica capas *domain / application / infrastructure* con
+  inyección de dependencias. 
+
+Detalle del módulo player (base para umbrales):
+  • Entidades dominio: Guest, Score, Achievement, TimeAchievement.  
+  • Servicios de aplicación: ScoreService, AchievementService.  
+  • Infraestructura: DBAchievementRepository → IAchievementRepository.  
+  • Funcionalidades cubren historias HUD2 (logros), HUD3 (reportes) y parte de HUD4
+    (cuentas de niños).  :contentReference[oaicite:4]{index=4}
+
+Escala del proyecto (pistas para normalizar métricas):
+  • Tesis ~ 80 páginas, código en Python + Flask con pruebas unitarias y
+    contenedor Docker.  
+  • Diagrama completo del negocio abarca ~ 4 paquetes principales y
+    < 100 clases totales (API académica tamaño medio).  
+  • Diagrama *player* contiene 7-8 clases; WMC máximo observado ≈ 12 (TimeAchievement),
+    ATFD estimado ≤ 4, Fan-Out moderado — valores muy inferiores a sistemas
+    industriales, por lo que conviene usar rangos más bajos que los de Marinescu.
+
+Consejos para tu calibrador automático:
+  1. Analiza primero todo el XMI para extraer distribución de WMC, ATFD, etc.  
+  2. Fija umbrales relativos (p. ej. percentil 90) y corrígelos con factores
+     contextuales: tamaño total de clases, nº de paquetes, profundidad de
+     herencia, etc.  
+  3. Ten en cuenta la capa: una clase *repository* suele tener fan-out alto sin
+     ser necesariamente God Class.  
+  4. Guarda estos parámetros en el `config.json` para que la CLI los lea en
+     tiempo de ejecución y adapte el detector a cada nueva tesis.

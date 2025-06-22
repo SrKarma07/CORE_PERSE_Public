@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from pathlib import Path
 from lxml import etree
 
@@ -13,13 +14,26 @@ class XMIParser:
 
     # ------------------------------------------------------------------ #
     def parse(self, file: Path | str) -> UMLModel:
+        """
+        Lee un archivo XMI y devuelve un UMLModel.
+        - Primer intento: parseo estricto.
+        - Si falla por XMLSyntaxError, reintenta sin comentarios y con recover=True.
+        """
         p = Path(file)
         if not p.exists():
             raise FileNotFoundError(p.resolve())
-        root = etree.parse(str(p)).getroot()
+
+        try:
+            root = etree.parse(str(p)).getroot()
+        except etree.XMLSyntaxError as err:
+            # Segundo intento: tolerante
+            parser = etree.XMLParser(remove_comments=True, recover=True)
+            root = etree.parse(str(p), parser=parser).getroot()
+            print(f"⚠️  XML corregido automáticamente ({err})")
+
         model = UMLModel()
 
-        # ---------- 1 · clases / interfaces -----------------------------
+        # ---------- 1 · clases / interfaces ----------------------------- #
         for node in root.xpath(
             ".//packagedElement[@xmi:type='uml:Class' or @xmi:type='uml:Interface']",
             namespaces=self.NS,
@@ -42,13 +56,13 @@ class XMIParser:
                 )
             model.classes[cls.id_] = cls
 
-        # ---------- 1.b · clientDependency (sin prefijo) -----------------
+        # ---------- 1.b · clientDependency (sin prefijo) ----------------- #
         for dep in root.xpath(".//clientDependency"):
             client_id = dep.getparent().get(f"{{{self.NS['xmi']}}}id")
             supplier_id = dep.get("supplier")
             self._add_edge(model, client_id, supplier_id)
 
-        # ---------- 2 · packagedElement Dependency / Association ---------
+        # ---------- 2 · Dependency / Association ------------------------ #
         for rel in root.xpath(
             ".//packagedElement[@xmi:type='uml:Dependency' "
             "or @xmi:type='uml:Association']",
