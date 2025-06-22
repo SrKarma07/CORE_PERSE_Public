@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi:version="2.1"
+     xmlns:uml="http://www.omg.org/spec/UML/20090901"
+     xmlns:xmi="http://www.omg.org/XMI">
+
+  <uml:Model name="ExtensiveModel" xmi:id="model1">
+
+    <!-- ─────────────── 1 · UI Layer ─────────────── -->
+    <packagedElement xmi:type="uml:Package" name="UI" xmi:id="pkg_ui">
+      <!-- LoginView -->
+      <packagedElement xmi:type="uml:Class" name="LoginView" xmi:id="cls_ui_1">
+        <ownedOperation name="displayLoginForm" xmi:id="op_ui_1"/>
+        <ownedOperation name="showError"         xmi:id="op_ui_2"/>
+        <clientDependency xmi:id="dep_ui_1" supplier="cls_srv_1"/>
+      </packagedElement>
+
+      <!-- DashboardView -->
+      <packagedElement xmi:type="uml:Class" name="DashboardView" xmi:id="cls_ui_2">
+        <ownedOperation name="showDashboard" xmi:id="op_ui_3"/>
+        <ownedOperation name="refresh"       xmi:id="op_ui_4"/>
+        <clientDependency xmi:id="dep_ui_2" supplier="cls_srv_2"/>
+        <clientDependency xmi:id="dep_ui_3" supplier="cls_core_1"/>
+      </packagedElement>
+    </packagedElement>
+
+
+    <!-- ─────────────── 2 · Service Layer ─────────────── -->
+    <packagedElement xmi:type="uml:Package" name="Service" xmi:id="pkg_service">
+
+      <!-- AccountService -->
+      <packagedElement xmi:type="uml:Class" name="AccountService" xmi:id="cls_srv_1">
+        <ownedAttribute name="accountRepo" type="cls_dao_1" xmi:id="att_srv_1"/>
+        <ownedAttribute name="emailSrv"    type="cls_util_1" xmi:id="att_srv_2"/>
+        <!-- 12 operaciones -->
+        <ownedOperation name="createAccount"        xmi:id="op_srv1_1"/>
+        <ownedOperation name="deleteAccount"        xmi:id="op_srv1_2"/>
+        <ownedOperation name="updateAccount"        xmi:id="op_srv1_3"/>
+        <ownedOperation name="getAccount"           xmi:id="op_srv1_4"/>
+        <ownedOperation name="lockAccount"          xmi:id="op_srv1_5"/>
+        <ownedOperation name="unlockAccount"        xmi:id="op_srv1_6"/>
+        <ownedOperation name="validateCredentials"  xmi:id="op_srv1_7"/>
+        <ownedOperation name="sendActivation"       xmi:id="op_srv1_8"/>
+        <ownedOperation name="audit"                xmi:id="op_srv1_9"/>
+        <ownedOperation name="notifyUser"           xmi:id="op_srv1_10"/>
+        <ownedOperation name="addRole"              xmi:id="op_srv1_11"/>
+        <ownedOperation name="removeRole"           xmi:id="op_srv1_12"/>
+        <clientDependency xmi:id="dep_srv1_1" supplier="cls_dao_1"/>
+        <clientDependency xmi:id="dep_srv1_2" supplier="cls_util_1"/>
+        <clientDependency xmi:id="dep_srv1_3" supplier="cls_core_1"/>
+      </packagedElement>
+
+      <!-- OrderManager  ➜ God Class candidate -->
+      <packagedElement xmi:type="uml:Class" name="OrderManager" xmi:id="cls_srv_2">
+        <!-- atributos -->
+        <ownedAttribute name="orderRepo"    type="cls_dao_2"  xmi:id="att_srv2_1"/>
+        <ownedAttribute name="inventorySrv" type="cls_srv_3"  xmi:id="att_srv2_2"/>
+        <ownedAttribute name="paymentGw"    type="cls_util_4" xmi:id="att_srv2_3"/>
+        <!-- 60 operaciones (WMC ↑) -->
+        <!-- Solo se listan algunas para no hacer el XMI interminable -->
+        <ownedOperation name="createOrder"      xmi:id="op_srv2_1"/>
+        <ownedOperation name="updateOrder"      xmi:id="op_srv2_2"/>
+        <ownedOperation name="cancelOrder"      xmi:id="op_srv2_3"/>
+        <ownedOperation name="calculateTotals"  xmi:id="op_srv2_4"/>
+        <ownedOperation name="applyDiscounts"   xmi:id="op_srv2_5"/>
+        <!-- … agrega op_srv2_6 hasta op_srv2_60 … -->
+        <ownedOperation name="op59" xmi:id="op_srv2_59"/>
+        <ownedOperation name="op60" xmi:id="op_srv2_60"/>
+        <!-- dependencias -->
+        <clientDependency xmi:id="dep_srv2_1" supplier="cls_dao_2"/>
+        <clientDependency xmi:id="dep_srv2_2" supplier="cls_util_2"/>
+        <clientDependency xmi:id="dep_srv2_3" supplier="cls_util_3"/>
+        <clientDependency xmi:id="dep_srv2_4" supplier="cls_util_4"/>
+        <clientDependency xmi:id="dep_srv2_5" supplier="cls_core_1"/>
+      </packagedElement>
+
+      <!-- InventoryService -->
+      <packagedElement xmi:type="uml:Class" name="InventoryService" xmi:id="cls_srv_3">
+        <ownedAttribute name="inventoryRepo" type="cls_dao_3" xmi:id="att_srv3_1"/>
+        <ownedOperation name="reserveStock"   xmi:id="op_srv3_1"/>
+        <ownedOperation name="releaseStock"   xmi:id="op_srv3_2"/>
+        <clientDependency xmi:id="dep_srv3_1" supplier="cls_dao_3"/>
+      </packagedElement>
+    </packagedElement>
+
+
+    <!-- ─────────────── 3 · DAO Layer ─────────────── -->
+    <packagedElement xmi:type="uml:Package" name="DAO" xmi:id="pkg_dao">
+
+      <packagedElement xmi:type="uml:Class" name="AccountRepository" xmi:id="cls_dao_1">
+        <ownedOperation name="saveAccount"   xmi:id="op_dao1_1"/>
+        <ownedOperation name="deleteAccount" xmi:id="op_dao1_2"/>
+        <ownedOperation name="getAccount"    xmi:id="op_dao1_3"/>
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Class" name="OrderRepository" xmi:id="cls_dao_2">
+        <ownedOperation name="saveOrder"   xmi:id="op_dao2_1"/>
+        <ownedOperation name="deleteOrder" xmi:id="op_dao2_2"/>
+        <ownedOperation name="getOrder"    xmi:id="op_dao2_3"/>
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Class" name="InventoryRepository" xmi:id="cls_dao_3">
+        <ownedOperation name="reserve" xmi:id="op_dao3_1"/>
+        <ownedOperation name="release" xmi:id="op_dao3_2"/>
+        <ownedOperation name="count"   xmi:id="op_dao3_3"/>
+      </packagedElement>
+
+    </packagedElement>
+
+
+    <!-- ─────────────── 4 · Utils Layer ─────────────── -->
+    <packagedElement xmi:type="uml:Package" name="Utils" xmi:id="pkg_util">
+
+      <packagedElement xmi:type="uml:Class" name="EmailService" xmi:id="cls_util_1">
+        <ownedOperation name="sendEmail"            xmi:id="op_util1_1"/>
+        <ownedOperation name="validateEmailFormat"  xmi:id="op_util1_2"/>
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Class" name="NotificationService" xmi:id="cls_util_2">
+        <ownedOperation name="push"  xmi:id="op_util2_1"/>
+        <ownedOperation name="sms"   xmi:id="op_util2_2"/>
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Class" name="Logger" xmi:id="cls_util_3">
+        <ownedOperation name="info"  xmi:id="op_util3_1"/>
+        <ownedOperation name="error" xmi:id="op_util3_2"/>
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Class" name="PaymentGateway" xmi:id="cls_util_4">
+        <ownedOperation name="charge"  xmi:id="op_util4_1"/>
+        <ownedOperation name="refund"  xmi:id="op_util4_2"/>
+      </packagedElement>
+
+    </packagedElement>
+
+
+    <!-- ─────────────── 5 · Core Layer ─────────────── -->
+    <packagedElement xmi:type="uml:Package" name="Core" xmi:id="pkg_core">
+
+      <!-- CoreHub  ➜ Hub-Like Dependency candidate -->
+      <packagedElement xmi:type="uml:Class" name="CoreHub" xmi:id="cls_core_1">
+        <ownedOperation name="orchestrate" xmi:id="op_core1_1"/>
+        <ownedOperation name="dispatch"    xmi:id="op_core1_2"/>
+        <ownedOperation name="schedule"    xmi:id="op_core1_3"/>
+        <ownedOperation name="transform"   xmi:id="op_core1_4"/>
+        <ownedOperation name="log"         xmi:id="op_core1_5"/>
+        <!-- Outgoing deps -->
+        <clientDependency xmi:id="dep_core1_1" supplier="cls_srv_1"/>
+        <clientDependency xmi:id="dep_core1_2" supplier="cls_srv_2"/>
+        <clientDependency xmi:id="dep_core1_3" supplier="cls_srv_3"/>
+        <clientDependency xmi:id="dep_core1_4" supplier="cls_dao_1"/>
+        <clientDependency xmi:id="dep_core1_5" supplier="cls_dao_2"/>
+        <clientDependency xmi:id="dep_core1_6" supplier="cls_util_3"/>
+      </packagedElement>
+    </packagedElement>
+
+
+    <!-- ─────────────── 6 · Associations explícitas ─────────────── -->
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc1">
+      <memberEnd xmi:idref="att_srv2_1"/>
+      <memberEnd xmi:idref="op_dao2_1"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc2">
+      <memberEnd xmi:idref="att_srv_1"/>
+      <memberEnd xmi:idref="op_dao1_1"/>
+    </packagedElement>
+
+  </uml:Model>
+</XMI>

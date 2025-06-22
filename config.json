@@ -1,0 +1,7 @@
+{
+  "wmc_min": 0,  "wmc_max": 60,
+  "atfd_min": 0, "atfd_max": 20,
+  "fanin_max": 20, 
+  "fanout_max": 20,
+  "lrc_max": 4
+}
