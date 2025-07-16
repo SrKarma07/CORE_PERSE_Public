@@ -1,0 +1,11 @@
+{
+  "wmc_min": 0.0,
+  "wmc_max": 2.0,
+  "atfd_min": 0.0,
+  "atfd_max": 1.0,
+  "fanin_max": 1.0,
+  "fanout_max": 1.0,
+  "lrc_max": 1.0,
+  "score_suspicious": 0.0,
+  "score_godclass": 0.0
+}

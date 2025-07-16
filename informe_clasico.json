@@ -1,0 +1,44 @@
+{
+  "god_class": [
+    {
+      "class": "Guest",
+      "score": 0.47,
+      "label": "god-class",
+      "metrics": {
+        "WMC": 2,
+        "ATFD": 0,
+        "TCC": 0.0,
+        "FanIn": 0,
+        "FanOut": 0,
+        "LRC": 1
+      }
+    },
+    {
+      "class": "IAchievementRepository",
+      "score": 0.31,
+      "label": "suspicious",
+      "metrics": {
+        "WMC": 1,
+        "ATFD": 0,
+        "TCC": 1.0,
+        "FanIn": 1,
+        "FanOut": 0,
+        "LRC": 1
+      }
+    },
+    {
+      "class": "AchievementService",
+      "score": 0.46,
+      "label": "god-class",
+      "metrics": {
+        "WMC": 1,
+        "ATFD": 1,
+        "TCC": 1.0,
+        "FanIn": 0,
+        "FanOut": 1,
+        "LRC": 1
+      }
+    }
+  ],
+  "hub_like": []
+}

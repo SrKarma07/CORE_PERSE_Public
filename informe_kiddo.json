@@ -1,0 +1,31 @@
+{
+  "god_class": [
+    {
+      "class": "Guest",
+      "score": 0.41,
+      "label": "suspicious",
+      "metrics": {
+        "WMC": 2,
+        "ATFD": 0,
+        "TCC": 0.0,
+        "FanIn": 0,
+        "FanOut": 0,
+        "LRC": 1
+      }
+    },
+    {
+      "class": "AchievementService",
+      "score": 0.4,
+      "label": "suspicious",
+      "metrics": {
+        "WMC": 1,
+        "ATFD": 1,
+        "TCC": 1.0,
+        "FanIn": 0,
+        "FanOut": 1,
+        "LRC": 1
+      }
+    }
+  ],
+  "hub_like": []
+}
